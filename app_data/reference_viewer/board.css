@@ -1,0 +1,45 @@
+*{box-sizing:border-box}
+body{margin:0;height:100vh;display:flex;font:12px/1.4 Inter,system-ui,-apple-system,sans-serif;color:#1e1e1e;background:#e5e5e5;overflow:hidden}
+#layers{width:240px;background:#fff;border-right:1px solid #d6d6d6;display:flex;flex-direction:column;flex:none}
+#layers .top{padding:12px;display:flex;justify-content:space-between;border-bottom:1px solid #eee;font-size:13px}
+#layers .top span{color:#888}
+#search{margin:8px;padding:6px 8px;border:1px solid #d6d6d6;border-radius:6px;font:inherit}
+#tree{overflow:auto;flex:1;padding-bottom:20px}
+#tree h4{margin:10px 12px 2px;font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+#tree a{display:block;padding:4px 12px 4px 24px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tree a:hover{background:#f2f2f2}
+#tree a.on{background:#0d99ff;color:#fff}
+#board{flex:1;position:relative;overflow:hidden;cursor:grab;
+  background-color:#e5e5e5;background-image:radial-gradient(#c9c9c9 1px,transparent 1px);background-size:24px 24px}
+#board.drag{cursor:grabbing}
+#canvas{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+#flows{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none}
+.area{position:absolute;font-size:34px;font-weight:700;color:#1e1e1e;white-space:nowrap}
+.area small{font-size:14px;font-weight:400;color:#888;margin-left:12px}
+.frame{position:absolute;width:360px}
+.frame .label{position:absolute;top:-22px;left:0;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#6b6b6b;font-size:13px;cursor:pointer}
+.frame .label i{font-style:normal;color:#aaa;margin-left:8px;font-size:11px}
+.frame .shell{position:relative;width:360px;height:740px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.15),0 0 0 1px rgba(0,0,0,.06);overflow:hidden}
+.frame.sel .shell{box-shadow:0 0 0 3px #0d99ff}
+.frame.sel .label{color:#0d99ff;font-weight:600}
+.shell .sbar{position:absolute;left:0;top:0;width:100%;height:24px;background:rgba(0,0,0,.06);z-index:3;font-size:10px;padding:5px 10px;color:#555;pointer-events:none}
+.shell .scr{position:absolute;left:0;top:24px;width:360px;height:716px;overflow:hidden}
+.shell .skel{position:absolute;inset:24px 0 0 0;display:grid;place-items:center;color:#bbb;font-size:20px;background:repeating-linear-gradient(45deg,#fafafa,#fafafa 12px,#f3f3f3 12px,#f3f3f3 24px)}
+.shell .err{position:absolute;inset:24px 0 0 0;padding:16px;color:#c0392b;font:11px ui-monospace,monospace;white-space:pre-wrap}
+#zoombar{position:absolute;right:16px;bottom:16px;display:flex;gap:6px;align-items:center;background:#fff;border-radius:8px;padding:6px 8px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+#zoombar button{border:1px solid #d6d6d6;background:#fff;border-radius:5px;padding:3px 8px;cursor:pointer;font:inherit}
+#zoombar span{min-width:44px;text-align:center}
+#help{position:absolute;left:16px;bottom:16px;color:#777;font-size:11px;max-width:55%}
+#props{width:290px;background:#fff;border-left:1px solid #d6d6d6;flex:none;overflow:auto;padding:12px}
+#info{white-space:pre-wrap;font:11px/1.5 ui-monospace,SFMono-Regular,monospace}
+#info h3{font:600 13px Inter,system-ui,sans-serif;margin:0 0 6px}
+#info a{color:#0d99ff;cursor:pointer;display:block;font-family:Inter,system-ui,sans-serif}
+.n{position:absolute;box-sizing:border-box}
+.n.scroll{overflow:auto;scrollbar-width:none}
+.n.gone{outline:1px dashed #e67e22;background-color:rgba(230,126,34,.08)}
+.n.hl{outline:2px solid #f24822 !important;z-index:9}
+.ph{border:1px dashed #999;background:repeating-linear-gradient(45deg,#f1f1f1,#f1f1f1 8px,#fafafa 8px,#fafafa 16px);color:#888;font:11px sans-serif;display:flex;align-items:center;justify-content:center}
+.k-fragment.ph{background:none;align-items:flex-start;justify-content:flex-start;pointer-events:none;border-color:#c9a}
+.spin{border:4px solid #ddd;border-top-color:#888;border-radius:50%}
+.chk{width:18px;height:18px;border:2px solid #777;margin:0 8px 0 4px;flex:none}
+.ic{pointer-events:none}

@@ -1,0 +1,54 @@
+# retailer
+
+| verb | path | client | method | body | response |
+|---|---|---|---|---|---|
+| POST | `v1/retailer/all` | kotlin | `getAllRetailers` | `DataSearchFilter` | `ArrayList<Retailer>` |
+| GET | `v1/retailer/assets` | kotlin | `getRetailerAssets` | `-` | `ArrayList<RetailerAsset>` |
+| POST | `v1/retailer/associate` | retrofit | `updateRetailerAssociate` | `Retailer` | `DataPostRequest` |
+| GET | `v1/retailer/attributes` | kotlin | `getUserAttributes` | `-` | `UserAttributeResponse` |
+| GET | `v1/retailer/base-pricing` | retrofit | `getRetailerBasedPricing` | `-` | `ArrayList<RetailerBasedPricingBean>` |
+| POST | `v1/retailer/bulk-create` | kotlin | `createBulkRetailers` | `BulkRetailersDao` | `ArrayList<String>` |
+| POST | `v1/retailer/change-stage` | retrofit | `changeRetailerStage` | `Map<String, String>` | `DataPostRequest` |
+| POST | `v1/retailer/change-status` | kotlin | `changeRetailerStatus` | `RetailerStatusResponse` | `RetailerUpdatedStatusResponse` |
+| POST | `v1/retailer/check-duplicate-retailer` | retrofit | `checkRetailer` | `CheckRetailer` | `CheckRetailerDuplicate` |
+| GET | `v1/retailer/cities` | kotlin | `getRetailerCities` | `-` | `CitiesResponse` |
+| GET | `v1/retailer/contacts` | retrofit | `getContactPerson` | `-` | `ArrayList<ContactPerson>` |
+| GET | `v1/retailer/contacts` | kotlin | `getContactPerson` | `-` | `ArrayList<ContactPerson>` |
+| POST | `v1/retailer/create` | retrofit | `submitNewRetailer` | `Retailer` | `DataPostRequest` |
+| GET | `v1/retailer/extra-data` | retrofit | `getRetailerOutstandingBalance` | `-` | `ArrayList<RetailerLedgerInfo>` |
+| GET | `v1/retailer/extra-data` | kotlin | `getRetailerOutstandingBalance` | `-` | `ArrayList<RetailerLedgerInfo>` |
+| GET | `v1/retailer/find-duplicate-retailers` | kotlin | `getDuplicateRetailersList` | `-` | `ArrayList<DuplicateRetailersResponseBean>` |
+| GET | `v1/retailer/generate-otp` | retrofit | `getOtp` | `-` | `OtpModel` |
+| GET | `v1/retailer/get-account-statement` | kotlin | `getAccountStatement` | `-` | `ArrayList<AccountStatementData>` |
+| GET | `v1/retailer/get-associate-retailers` | kotlin | `getAssociatedCustomer` | `-` | `ArrayList<AssociatedCustomersData>` |
+| GET | `v1/retailer/get-custom-detail` | retrofit | `getRetailerFieldsExtra` | `-` | `Retailer` |
+| POST | `v1/retailer/get-history` | retrofit | `viewRetailerHistory` | `HistoryFilterReq` | `ArrayList<CustomerHistoryListBean>` |
+| POST | `v1/retailer/get-product-serial-number` | kotlin | `getRetailerProductSerialNumber` | `RetailerSerialLookupRequest` | `RetailerSerialLookupData` |
+| GET | `v1/retailer/get-profile-info` | retrofit | `getRetailerExtraInfo` | `-` | `RetailerExtraInfoResponse` |
+| GET | `v1/retailer/get-profile-info` | kotlin | `getRetailerExtraInfo` | `-` | `RetailerExtraInfoResponse` |
+| GET | `v1/retailer/get-retailer-product-promoter` | retrofit | `getRetailerForProductPromotor` | `-` | `GetRetailerPromoterResponse` |
+| GET | `v1/retailer/index` | retrofit | `getViewRetailer` | `-` | `Retailer` |
+| GET | `v1/retailer/index` | kotlin | `getCustomerApprovedList` | `-` | `ArrayList<Retailer>` |
+| GET | `v1/retailer/index` | kotlin | `getCustomerPendingApprovalList` | `-` | `ArrayList<Retailer>` |
+| GET | `v1/retailer/index` | kotlin | `getJumpCallRetailerListDelta` | `-` | `ArrayList<Retailer>` |
+| GET | `v1/retailer/index` | kotlin | `getJumpCallRetailerList_coroutine` | `-` | `ArrayList<Retailer>` |
+| GET | `v1/retailer/index` | kotlin | `getViewRetailer` | `-` | `Retailer` |
+| POST | `v1/retailer/index` | retrofit | `getFilterRetailerList` | `FilterBody` | `ArrayList<Retailer>` |
+| POST | `v1/retailer/index` | kotlin | `getFilterRetailerList` | `FilterBody` | `ArrayList<Retailer>` |
+| POST | `v1/retailer/index` | kotlin | `getStateCallRetailerList` | `-` | `ArrayList<Retailer>` |
+| GET | `v1/retailer/inventory` | kotlin | `getInventoryStock` | `-` | `InventoryData` |
+| GET | `v1/retailer/retailer-label` | retrofit | `getlabelsforRetailer` | `-` | `ArrayList<LabelForRetailer>` |
+| GET | `v1/retailer/retailer-label` | kotlin | `getlabelsforRetailer` | `-` | `ArrayList<LabelForRetailer>` |
+| POST | `v1/retailer/search-retailer` | kotlin | `getRetailerOfCompany` | `FilterBean` | `ArrayList<Retailer>` |
+| POST | `v1/retailer/source-data-retailers` | kotlin | `getSourceDataForRetailers` | `CustomerDaoRequest` | `ArrayList<CustomerDaoResponse>` |
+| GET | `v1/retailer/status/{id}` | kotlin | `getRetailerStatus` | `-` | `RetailerStatusResponse` |
+| GET | `v1/retailer/team` | retrofit | `getRetailerListExtra` | `-` | `Retailer` |
+| GET | `v1/retailer/team-mapping` | retrofit | `getRetailerListTeam` | `-` | `ArrayList<RetailerTeamResponse>` |
+| GET | `v1/retailer/team-mapping` | kotlin | `getRetailerListTeam` | `-` | `ArrayList<RetailerTeamResponse>` |
+| POST | `v1/retailer/update` | retrofit | `submitUpdatedRetailer` | `Retailer` | `DataPostRequest` |
+| POST | `v1/retailer/update-contacts` | retrofit | `submitRetailerContact` | `ArrayList<ContactPerson>` | `ContactPersonResponse` |
+| POST | `v1/retailer/update-route` | retrofit | `updateRetailerRoute` | `RouteUpdateRequest` | `RouteUpdateResponse` |
+| POST | `v1/retailer/verify-ifsc` | kotlin | `verifyIfsc` | `IfscVerificationRequest` | `IfscVerificationData` |
+| POST | `v1/retailer/verify-statutory` | retrofit | `verifyStatutory` | `VerifyStatutoryRequest` | `VerifyStatutoryData` |
+| GET | `v1/retailer/view-note` | kotlin | `getViewNote` | `-` | `CreditDebitData` |
+| GET | `v1/retailer/view-update-history` | retrofit | `viewRetailerHistoryDetail` | `-` | `RetailerHistoryDetailResponse` |

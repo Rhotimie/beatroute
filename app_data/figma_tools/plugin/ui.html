@@ -1,0 +1,14 @@
+<style>body{font:12px system-ui;margin:12px}button{margin-top:8px}#log{margin-top:8px;color:#555;white-space:pre-wrap}</style>
+<input id="f" type="file" accept=".json"><br>
+<button id="go">Import</button>
+<div id="log"></div>
+<script>
+const log = m => (document.getElementById("log").textContent = m);
+document.getElementById("go").onclick = async () => {
+  const file = document.getElementById("f").files[0];
+  if (!file) return log("Choose a JSON file first.");
+  log("Reading...");
+  parent.postMessage({ pluginMessage: JSON.parse(await file.text()) }, "*");
+};
+onmessage = e => log(e.data.pluginMessage);
+</script>

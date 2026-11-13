@@ -1,0 +1,21 @@
+  reference this document:
+  /Users/user/Desktop/ai_engineer/beatroute/help-me-with-all-the-bset-skills-plugins-mcp-or-any-other-be.md
+  i want a Figma mockup from the extracted screens, Installable mobile app with dummy data, Per-view API design docs with
+  sample I/O
+
+
+ 1. Figma MCP use_figma (Recommended if plan allows)
+     I authenticate the Figma MCP and write frames into your file, a few screens per call. Needs a Professional or higher plan and a draft file.
+❯ 2. Local Figma plugin
+     I write a small plugin that imports a JSON dump. It has no per-call size limit and works on a free plan, but you run it manually inside Figma.
+  3. No Figma account yet
+     Skip Figma for now. I build the app and API docs first, and export frames later.
+
+
+Not yet done
+
+- The Ktor extractor.
+- The screen-to-endpoint mapping.
+- The remaining view docs.
+- Importing the Figma plugin in Figma Desktop. It has only been tested against a mock.
+

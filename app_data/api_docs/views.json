@@ -1,0 +1,47 @@
+[
+  {
+    "id": "01_sign_in",
+    "title": "Sign-in (username, password, OTP)",
+    "screens": {"prototype": ["login", "password", "otp", "activate"], "apk": ["EnterUsernameKotlin", "EnterPasswordKotlin", "OtpVerificationActivity", "UserActivationActivity"]},
+    "summary": "Three steps against two main endpoints. The username check decides whether the user goes to the password screen or the activation screen. The same login endpoint serves password sign-in and OTP verification; only `method`, `password` and `otp` differ.",
+    "endpoints": ["retrofit.checkUser", "retrofit.login", "retrofit.resendOtp", "retrofit.resendTwoOtp", "retrofit.activateUser", "retrofit.forgotPassword"],
+    "path_overrides": {"retrofit.checkUser": "v1/user/check-username"},
+    "notes": [
+      "`checkUser` has no path annotation: it takes a `@Url`. `defpackage/C0571Dj.java:638-647` builds `<central base> + v1/user/check-username`. The response carries `api_url` and `portal_url`, which switch the base URL for every later call (`defpackage/C6567tj.java:115-139`, falling back to `https://api.beatroute.io/`).",
+      "Password screen sends `method=password`, `password` set, `otp=\"\"`. OTP screen sends `method=otp`, `otp=<code>`, `password=\"\"`, `terms_accepted=\"1\"`.",
+      "Branching after the username check: empty `name` shows an error; otherwise password screen, or activation if the account is not activated and has no password.",
+      "Call chain: `EnterUsernameKotlin` -> `EnterUsernameViewModel` (obfuscated `defpackage/C1647Xy.java:41-63`) -> `DBManager.checkUser` -> `C0571Dj.n`. Login: `EnterPasswordKotlin` / `OtpVerificationActivity` -> `C1439Ty.b` -> `DBManager.login` (`DBManager.java:14585`) -> `C0571Dj.P0` -> `ApiInterface.login`.",
+      "The splash screen reuses `DBManager.login` for silent token re-login (`SplashScreen.java:450`)."
+    ],
+    "open": ["Auth scheme for later calls (token header) was not traced.", "Whether the server accepts the Jackson name `deviceInfo` as well as `device_model`."]
+  },
+  {
+    "id": "02_customers",
+    "title": "Customer (retailer) list and detail",
+    "screens": {"prototype": ["retailers", "retailer"], "apk": ["RetailersActivity", "ItemFragment (list)", "RetailersViewActivity (detail)"]},
+    "summary": "The list is offline-first: the response is saved to the local SQLite copy and the screen mostly reads that copy. Detail is a single GET by id and is shared by about 20 screens.",
+    "endpoints": ["kotlin.getFilterRetailerList", "kotlin.getViewRetailer"],
+    "notes": [
+      "List call chain: `fragment/ItemFragment$getRetailers$1` -> `DBManagerKotlin.Companion.z` -> coroutine `DBManagerKotlin$Companion$fetchRetailerlist$1` -> `ApiInterfaceKotlin.getFilterRetailerList` (`ApiInterfaceKotlin.java:397-398`).",
+      "Detail call chain: `DBManagerKotlin.Companion.H2` -> `viewRetailer$1` -> `ApiInterfaceKotlin.getViewRetailer` (`ApiInterfaceKotlin.java:701-702`). `H2` is called by `CreditDebitDetail`, `PaymentDetailScreen`, `DispatchDetail`, `DraftOrderListActivity` and others.",
+      "`Retailer` (about 100 fields) mixes API fields with client-only state (`isSelected`, `islongPressed`, `isError`, `errorMessage`, `latitudeCapturedOnList`). Treat those as not part of the API.",
+      "Related detail endpoints: `GET v1/retailer/get-profile-info?retailer_id`, `GET v1/retailer/contacts?id`, `GET v1/retailer/extra-data?retailer_id&distributor_id`, `POST v1/retailer/get-history`."
+    ],
+    "open": ["How `RetailersActivity` hands over to `ItemFragment` was not confirmed."]
+  },
+  {
+    "id": "03_take_order",
+    "title": "Take order and submit order",
+    "screens": {"prototype": ["productList", "scheme", "orderSummary", "drafts"], "apk": ["ProductListViewKotlin", "SchemeDialogActivity", "OrderSummaryViewTypeActivityNew", "DraftOrderListActivity"]},
+    "summary": "Products and schemes are read with GETs. The order itself is not posted by the screen: it is queued locally and `ActivitySyncService` posts it, so the write path starts at the queue.",
+    "endpoints": ["kotlin.getSKUList", "retrofit.getScheme", "retrofit.getAllSKUList", "retrofit.submitOrder"],
+    "notes": [
+      "Write path: `service/ActivitySyncService.java:1599` -> `DBManager.submitOrder` (`DBManager.java:16011`) -> `C0571Dj.n1` (`C0571Dj.java:657`) -> `ApiInterface.submitOrder`. It posts any queued `Order` task marked syncing and not in error.",
+      "Fixed header values set by the client: `status=\"New\"`, `source=\"Mobile\"`. Images go as base64 JPEG in `image_binary` and `signature_image_binary`.",
+      "The header has one field `hasreturns` but two boolean accessors, `isHasReturns` and `isHasreturns`, so Jackson would send both `hasReturns` and `hasreturns`. The server name `locationAcuuracy` is spelled that way in the source (sic).",
+      "Tax-inclusive price, tax and scheme price are computed on the client before the call (`DBManager.java:16143-16178`).",
+      "The product screen is `takeOrder/ProductListViewKotlin` with `takeOrder/ProductViewModel`, which is partly undecompiled (see RECON.md)."
+    ],
+    "open": ["The hop from the order screen to the local queue (the Order insert) was not traced.", "Which SKU endpoint the product list actually calls: `v1/sku/price` is the likely one, `v1/sku/index` exists on the Ktor side."]
+  }
+]

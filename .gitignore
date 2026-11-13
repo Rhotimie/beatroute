@@ -1,0 +1,30 @@
+# Third-party app material: never publish (see RECON.md)
+apktool/
+jadx/
+xapk/
+input/
+research_documents/
+*.apk
+*.xapk
+*.log
+
+# APK-derived outputs in the study tooling
+app_data/reference_viewer/assets/
+app_data/reference_viewer/screens/
+app_data/reference_viewer/screens_map.json
+app_data/reference_viewer/links.json
+app_data/reference_viewer/preview.png
+app_data/reference_viewer/a11y_report.md
+app_data/reference_viewer/convert_errors.txt
+app_data/reference_viewer/pick_audit.csv
+app_data/figma_tools/out/study.json
+app_data/figma_tools/out/*.png
+
+# Tooling, environments, caches
+.remember/
+.venv/
+node_modules/
+.expo/
+__pycache__/
+app_data/api_docs/build/
+.DS_Store

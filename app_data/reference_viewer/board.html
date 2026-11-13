@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference board</title>
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<aside id="layers">
+  <div class="top"><b>Reference board</b><span id="count"></span></div>
+  <input id="search" placeholder="Search screens">
+  <div id="tree"></div>
+</aside>
+<main id="board">
+  <div id="canvas"><svg id="flows"></svg></div>
+  <div id="zoombar">
+    <button id="zout">-</button><span id="zpct">100%</span><button id="zin">+</button>
+    <button id="zfit">Fit width</button>
+    <label><input type="checkbox" id="gone"> hidden views</label>
+  </div>
+  <div id="help">Scroll to pan - Ctrl/Cmd + scroll or pinch to zoom - drag the background to pan - click a frame to select it and show its flows - double-click to zoom in</div>
+</main>
+<aside id="props"><div id="info">Select a frame, then hover any view to inspect it.</div></aside>
+<script src="screens/manifest.js"></script>
+<script src="engine.js"></script>
+<script src="board.js"></script>
+</body>
+</html>

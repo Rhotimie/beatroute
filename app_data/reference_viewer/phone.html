@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference phone view</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#222;font:12px system-ui,sans-serif;overflow:hidden}
+  #stage{position:fixed;left:0;top:0;transform-origin:0 0;background:#fff}
+  #sbar{height:24px;background:rgba(0,0,0,.08);font-size:10px;padding:5px 10px;color:#555;position:absolute;left:0;top:0;width:100%;z-index:3;pointer-events:none}
+  #scr{position:absolute;left:0;top:24px;overflow:hidden}
+  #nav{position:fixed;left:0;right:0;bottom:0;height:44px;background:#111;color:#fff;display:flex;align-items:center;gap:6px;padding:0 8px;overflow-x:auto;z-index:10}
+  #nav button,#nav a{flex:none;background:#333;color:#fff;border:0;border-radius:14px;padding:5px 10px;font:inherit;cursor:pointer}
+  #nav b{flex:none;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #list{position:fixed;inset:0 0 44px 0;background:#fff;z-index:20;overflow:auto;padding:8px;display:none}
+  #list a{display:block;padding:7px 4px;border-bottom:1px solid #eee;cursor:pointer;color:#111}
+  #list h4{margin:10px 0 2px;color:#888;font-size:11px;text-transform:uppercase}
+  .n{position:absolute;box-sizing:border-box}
+  .n.scroll{overflow:auto;scrollbar-width:none}
+  .n.gone{outline:1px dashed #e67e22;background-color:rgba(230,126,34,.08)}
+  .ph{border:1px dashed #999;background:repeating-linear-gradient(45deg,#f1f1f1,#f1f1f1 8px,#fafafa 8px,#fafafa 16px);color:#888;font:11px sans-serif;display:flex;align-items:center;justify-content:center}
+  .k-fragment.ph{background:none;align-items:flex-start;justify-content:flex-start;pointer-events:none;border-color:#c9a}
+  .spin{border:4px solid #ddd;border-top-color:#888;border-radius:50%}
+  .chk{width:18px;height:18px;border:2px solid #777;margin:0 8px 0 4px;flex:none}
+  .ic{pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage"><div id="sbar">9:41</div><div id="scr"></div></div>
+<div id="list"></div>
+<div id="nav"></div>
+<script src="screens/manifest.js"></script>
+<script src="engine.js"></script>
+<script src="lint.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = v => String(v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const by = Object.fromEntries(MANIFEST.map(m => [m.name, m]));
+const order = MANIFEST.map(m => m.name);
+let cur = null;
+
+function load(name) {
+  return new Promise((res, rej) => {
+    if (window.SCREENS && SCREENS[name]) return res(SCREENS[name]);
+    const s = document.createElement("script");
+    s.src = `screens/${name}.js`; s.onload = () => res(SCREENS[name]); s.onerror = () => rej(new Error("missing " + name));
+    document.head.appendChild(s);
+  });
+}
+async function show(name) {
+  if (!by[name]) name = order[0];
+  cur = name; location.hash = name; $("list").style.display = "none";
+  const W = 360, k = innerWidth / W, H = (innerHeight - 44) / k;
+  $("stage").style.transform = `scale(${k})`;
+  $("stage").style.width = W + "px"; $("stage").style.height = H + "px";
+  $("scr").style.cssText = `width:${W}px;height:${H - 24}px`;
+  state.showGone = false;
+  renderScreen(await load(name), $("scr"), W, H);
+  nav();
+}
+function nav() {
+  const m = by[cur], i = order.indexOf(cur);
+  $("nav").innerHTML = `<button data-n="__list">Screens</button><button data-n="${esc(order[(i + order.length - 1) % order.length])}">Prev</button><b>${esc(m.title)}</b>` +
+    `<button data-n="${esc(order[(i + 1) % order.length])}">Next</button>` + m.opens.map(o => `<a data-n="${esc(o)}">${esc(by[o].title)}</a>`).join("");
+}
+$("nav").onclick = e => { const n = e.target.dataset.n; if (n === "__list") return openList(); if (n) show(n); };
+function openList() {
+  const g = {}; MANIFEST.forEach(m => (g[m.area] = g[m.area] || []).push(m));
+  $("list").innerHTML = Object.entries(g).map(([a, l]) => `<h4>${esc(a)}</h4>` + l.map(m => `<a data-n="${esc(m.name)}">${esc(m.title)}</a>`).join("")).join("");
+  $("list").style.display = "block";
+}
+$("list").onclick = e => e.target.dataset.n && show(e.target.dataset.n);
+addEventListener("hashchange", () => location.hash.slice(1) !== cur && show(location.hash.slice(1)));
+addEventListener("resize", () => show(cur));
+show(location.hash.slice(1));
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field Sales Prototype</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside id="side">
+  <h1>Field Sales Prototype</h1>
+  <p class="hint">Clean-room clickable mockup. All data is dummy. Pick any screen, or tap through the phone.</p>
+  <input id="filter" placeholder="Filter screens">
+  <nav id="index"></nav>
+</aside>
+<main>
+  <div id="phone">
+    <div id="status"><span>9:41</span><span>5G 100%</span></div>
+    <div id="screen"></div>
+    <div id="tabbar"></div>
+    <div id="modal" hidden></div>
+    <div id="toast" hidden></div>
+  </div>
+  <p id="crumb"></p>
+</main>
+<script src="data.js"></script>
+<script src="screens.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
